@@ -43,3 +43,21 @@ def test_profile_csv_empty_dataset(tmp_path):
     assert report["row_count"] == 0
     assert report["column_count"] == 2
     assert report["columns"]["id"]["null_percentage"] == 0.0
+    
+    
+
+def test_profile_csv_counts_duplicate_rows(tmp_path):
+    csv_file = tmp_path / "duplicates.csv"
+    csv_file.write_text(
+        "id,name\n"
+        "1,Alice\n"
+        "2,Bob\n"
+        "1,Alice\n"
+        "1,Alice\n",
+        encoding="utf-8",
+    )
+
+    report = profile_csv(csv_file)
+
+    assert report["row_count"] == 4
+    assert report["duplicate_row_count"] == 2
