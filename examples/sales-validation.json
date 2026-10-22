@@ -1,0 +1,43 @@
+{
+  "file_name": "sales.csv",
+  "passed": true,
+  "total_rules": 5,
+  "failed_rules": 0,
+  "results": [
+    {
+      "rule": "required_column",
+      "column": "order_id",
+      "passed": true,
+      "failure_count": 0,
+      "message": "Column exists."
+    },
+    {
+      "rule": "required_column",
+      "column": "amount",
+      "passed": true,
+      "failure_count": 0,
+      "message": "Column exists."
+    },
+    {
+      "rule": "not_null",
+      "column": "order_id",
+      "passed": true,
+      "failure_count": 0,
+      "message": "No null values."
+    },
+    {
+      "rule": "unique",
+      "column": "order_id",
+      "passed": true,
+      "failure_count": 0,
+      "message": "All non-null values are unique."
+    },
+    {
+      "rule": "non_negative",
+      "column": "amount",
+      "passed": true,
+      "failure_count": 0,
+      "message": "All non-null values are non-negative numbers."
+    }
+  ]
+}

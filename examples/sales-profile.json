@@ -1,0 +1,23 @@
+{
+  "file_name": "sales.csv",
+  "row_count": 4,
+  "column_count": 3,
+  "duplicate_row_count": 0,
+  "columns": {
+    "order_id": {
+      "data_type": "BIGINT",
+      "null_count": 0,
+      "null_percentage": 0.0
+    },
+    "customer": {
+      "data_type": "VARCHAR",
+      "null_count": 0,
+      "null_percentage": 0.0
+    },
+    "amount": {
+      "data_type": "DOUBLE",
+      "null_count": 1,
+      "null_percentage": 25.0
+    }
+  }
+}
