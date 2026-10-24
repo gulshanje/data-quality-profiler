@@ -7,7 +7,9 @@ from pathlib import Path
 from dataqualityprofiler.profiling import profile_csv
 from dataqualityprofiler.reporting import export_json
 from dataqualityprofiler.validation import validate_csv
+from dataqualityprofiler.pipeline_runner import run_quality_pipeline
 
+from dataqualityprofiler.logging_config import configure_logging
 
 def parse_columns(value: str) -> list[str]:
     """Parse comma-separated column names."""
@@ -31,7 +33,44 @@ def build_parser() -> argparse.ArgumentParser:
         dest="command",
         required=True,
     )
-
+    
+    
+    
+    run_parser = subparsers.add_parser(
+        "run",
+        help="Run the complete data quality pipeline",
+    )
+    run_parser.add_argument("input", help="Path to the input CSV file")
+    run_parser.add_argument(
+        "--output",
+        required=True,
+        help="Path for the cleaned output CSV",
+    )
+    run_parser.add_argument(
+        "--report",
+        required=True,
+        help="Path for the JSON quality report",
+    )
+    run_parser.add_argument(
+        "--required-columns",
+        default="",
+        help="Comma-separated list of required columns",
+    )
+    run_parser.add_argument(
+        "--not-null-columns",
+        default="",
+        help="Comma-separated list of columns that cannot contain nulls",
+    )
+    run_parser.add_argument(
+        "--unique-columns",
+        default="",
+        help="Comma-separated list of columns that must be unique",
+    )
+    run_parser.add_argument(
+        "--non-negative-columns",
+        default="",
+        help="Comma-separated list of columns that must be non-negative",
+    )
     profile_parser = subparsers.add_parser(
         "profile",
         help="Profile a CSV file.",
@@ -76,6 +115,44 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.command == "profile":
             report = profile_csv(args.csv_file)
+            
+        
+        elif args.command == "run":
+            report = run_quality_pipeline(
+                input_path=args.input,
+                output_path=args.output,
+                report_path=args.report,
+                required_columns=tuple(
+                    column.strip()
+                    for column in args.required_columns.split(",")
+                    if column.strip()
+                ),
+                not_null_columns=tuple(
+                    column.strip()
+                    for column in args.not_null_columns.split(",")
+                    if column.strip()
+                ),
+                unique_columns=tuple(
+                    column.strip()
+                    for column in args.unique_columns.split(",")
+                    if column.strip()
+                ),
+                non_negative_columns=tuple(
+                    column.strip()
+                    for column in args.non_negative_columns.split(",")
+                    if column.strip()
+                ),
+            )
+
+            print(f"Validation passed: {report['validation']['passed']}")
+            print(f"Report saved to: {args.report}")
+
+            if report["pipeline"]["executed"]:
+                print(f"Cleaned CSV saved to: {args.output}")
+                return 0
+
+            print("Validation failed; cleaned CSV was not generated.")
+            return 1
         else:
             report = validate_csv(
                 args.csv_file,
@@ -102,4 +179,5 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
+    configure_logging()
     raise SystemExit(main())
