@@ -3,3 +3,6 @@
 .ruff_cache
 __pycache__
 examples/sales-cleaned.csv
+*.egg-info/
+dist/
+build/
