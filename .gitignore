@@ -1,8 +1,12 @@
-.venv
-.pytest_cache
-.ruff_cache
-__pycache__
-examples/sales-cleaned.csv
+.git/
+.github/
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.py[cod]
 *.egg-info/
 dist/
 build/
+examples/sales-cleaned.csv
+examples/quality-report.json

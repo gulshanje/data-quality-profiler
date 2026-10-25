@@ -1,0 +1,70 @@
+{
+  "input_file": "C:\\github\\data-quality-profiler\\examples\\sales.csv",
+  "profile": {
+    "file_name": "sales.csv",
+    "row_count": 4,
+    "column_count": 3,
+    "duplicate_row_count": 0,
+    "columns": {
+      "order_id": {
+        "data_type": "BIGINT",
+        "null_count": 0,
+        "null_percentage": 0.0
+      },
+      "customer": {
+        "data_type": "VARCHAR",
+        "null_count": 0,
+        "null_percentage": 0.0
+      },
+      "amount": {
+        "data_type": "DOUBLE",
+        "null_count": 1,
+        "null_percentage": 25.0
+      }
+    }
+  },
+  "validation": {
+    "file_name": "sales.csv",
+    "passed": true,
+    "total_rules": 4,
+    "failed_rules": 0,
+    "results": [
+      {
+        "rule": "required_column",
+        "column": "order_id",
+        "passed": true,
+        "failure_count": 0,
+        "message": "Column exists."
+      },
+      {
+        "rule": "required_column",
+        "column": "amount",
+        "passed": true,
+        "failure_count": 0,
+        "message": "Column exists."
+      },
+      {
+        "rule": "unique",
+        "column": "order_id",
+        "passed": true,
+        "failure_count": 0,
+        "message": "All non-null values are unique."
+      },
+      {
+        "rule": "non_negative",
+        "column": "amount",
+        "passed": true,
+        "failure_count": 0,
+        "message": "All non-null values are non-negative numbers."
+      }
+    ]
+  },
+  "pipeline": {
+    "executed": true,
+    "input_file": "C:\\github\\data-quality-profiler\\examples\\sales.csv",
+    "output_file": "C:\\github\\data-quality-profiler\\data\\cleaned.csv",
+    "original_rows": 4,
+    "cleaned_rows": 4,
+    "duplicates_removed": 0
+  }
+}

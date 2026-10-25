@@ -1,4 +1,4 @@
-
+import logging
 from pathlib import Path
 from typing import Any
 
@@ -6,6 +6,8 @@ from dataqualityprofiler.pipeline import run_pipeline
 from dataqualityprofiler.profiling import profile_csv
 from dataqualityprofiler.reporting import export_json
 from dataqualityprofiler.validation import validate_csv
+
+logger = logging.getLogger(__name__)
 
 
 def run_quality_pipeline(
@@ -20,9 +22,15 @@ def run_quality_pipeline(
 ) -> dict[str, Any]:
     """Profile, validate, and conditionally transform a CSV file."""
     source = Path(input_path).resolve()
-
+    
+    logger.info("Starting quality pipeline for %s", source)
+    
+    logger.info("Profiling input CSV")
+    
     profile = profile_csv(source)
-
+    
+    logger.info("Validating input data")
+    
     validation = validate_csv(
         source,
         required_columns=required_columns,
@@ -43,10 +51,14 @@ def run_quality_pipeline(
 
     if validation["passed"]:
         pipeline_result = run_pipeline(source, output_path)
+        logger.info("Validation passed; starting CSV cleaning")
         report["pipeline"] = {
             "executed": True,
             **pipeline_result,
         }
+    else:
+        logger.warning("Validation failed; skipping CSV cleaning")
 
     export_json(report, report_path)
+    logger.info("Quality report saved to %s", report_path)
     return report

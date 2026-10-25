@@ -4,12 +4,12 @@ import json
 import sys
 from pathlib import Path
 
+from dataqualityprofiler.logging_config import configure_logging
+from dataqualityprofiler.pipeline_runner import run_quality_pipeline
 from dataqualityprofiler.profiling import profile_csv
 from dataqualityprofiler.reporting import export_json
 from dataqualityprofiler.validation import validate_csv
-from dataqualityprofiler.pipeline_runner import run_quality_pipeline
 
-from dataqualityprofiler.logging_config import configure_logging
 
 def parse_columns(value: str) -> list[str]:
     """Parse comma-separated column names."""
