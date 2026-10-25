@@ -144,6 +144,3 @@ This is an early-stage project. It currently focuses on CSV files and configurab
 * [ ] More edge-case and integration tests
 * [ ] Additional input formats and data sources
 
-## License
-
-Add your chosen open-source license before publishing the project publicly.
